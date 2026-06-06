@@ -1,0 +1,75 @@
+services:
+  app:
+    build:
+      context: ./docker/php
+      args:
+        APP_UID: ${APP_UID:-1000}
+        APP_GID: ${APP_GID:-1000}
+    container_name: gaming-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./gaming:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gaming-net
+
+  web:
+    build:
+      context: ./docker/nginx
+    container_name: gaming-web
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8081}:80"
+    volumes:
+      - ./gaming:/var/www/html:ro
+    depends_on:
+      - app
+    networks:
+      - gaming-net
+
+  db:
+    image: mysql:8.4
+    container_name: gaming-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${DB_DATABASE:-gaming}
+      MYSQL_USER: ${DB_USERNAME:-gaming}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - gaming-net
+
+  node:
+    image: node:22-alpine
+    container_name: gaming-node
+    working_dir: /var/www/html
+    volumes:
+      - ./gaming:/var/www/html
+    ports:
+      - "${VITE_PORT:-5173}:5173"
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    profiles: ["dev"]
+    networks:
+      - gaming-net
+
+volumes:
+  db-data:
+
+networks:
+  gaming-net:
+    driver: bridge

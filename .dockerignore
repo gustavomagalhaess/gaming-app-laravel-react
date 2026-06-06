@@ -1,0 +1,12 @@
+.git
+.idea
+.vscode
+docs
+node_modules
+gaming/vendor
+gaming/node_modules
+gaming/.env
+gaming/storage/logs/*
+gaming/storage/framework/cache/data/*
+gaming/storage/framework/sessions/*
+gaming/storage/framework/views/*
