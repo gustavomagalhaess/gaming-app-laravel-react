@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Card;
+use App\Domains\Card\Models\Card;
 use Illuminate\Database\Seeder;
 
 class CardSeeder extends Seeder

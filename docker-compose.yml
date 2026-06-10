@@ -10,6 +10,10 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./gaming:/var/www/html
+    environment:
+      PHP_IDE_CONFIG: serverName=gaming
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
+      IDE_KEY: ${IDE_KEY:-gaming}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

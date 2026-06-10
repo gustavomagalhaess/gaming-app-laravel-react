@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Domains\Card\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

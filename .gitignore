@@ -46,3 +46,8 @@ Thumbs.db
 AGENTS.md
 CLAUDE.md
 docs/
+
+# AIOX Local (AIOX)
+.aiox-core/local/
+.claude/settings.local.json
+.aiox/install-log.txt

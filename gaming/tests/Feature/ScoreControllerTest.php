@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Score;
+use App\Domains\Score\Models\Score;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

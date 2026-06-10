@@ -12,7 +12,7 @@ A browser-based gaming platform built with **Laravel 13** (backend API) and **Re
 
 | Layer | Technology |
 |---|---|
-| Backend | PHP 8.2+, Laravel 11 |
+| Backend | PHP 8.3+, Laravel 13 |
 | Frontend | React 19, TypeScript, Vite |
 | Styling | Tailwind CSS 4 |
 | Database | MySQL 8.4 |
@@ -20,30 +20,46 @@ A browser-based gaming platform built with **Laravel 13** (backend API) and **Re
 
 ## Project Structure
 
+The backend follows **Domain-Driven Design (DDD)**. Each domain owns its models, repositories, services, and requests, keeping cross-domain dependencies explicit.
+
 ```
 .
-├── gaming/                 # Laravel + React application
+├── gaming/                         # Laravel + React application
 │   ├── app/
+│   │   ├── Domains/
+│   │   │   ├── Card/               # Card domain
+│   │   │   │   ├── Enums/          # CardEnum (suits, faces, values)
+│   │   │   │   ├── Messages/       # CardMessage (response messages)
+│   │   │   │   ├── Models/         # Card
+│   │   │   │   ├── Repositories/   # CardRepositoryInterface + CardRepository
+│   │   │   │   └── Services/       # CardService (hand generation, comparison)
+│   │   │   └── Score/              # Score domain
+│   │   │       ├── Messages/       # ScoreMessage (response messages)
+│   │   │       ├── Models/         # Score
+│   │   │       ├── Repositories/   # ScoreRepositoryInterface + ScoreRepository
+│   │   │       ├── Requests/       # ScoreRequest (validation)
+│   │   │       └── Services/       # ScoreService (persistence, top-10)
 │   │   ├── Http/Controllers/
-│   │   │   ├── CardController.php    # GET /api/cards/{suit}
-│   │   │   ├── GameController.php    # POST /api/game/play
-│   │   │   └── ScoreController.php   # POST /api/scores, GET /api/scores/top10
-│   │   ├── Models/         # Card, Score, User
-│   │   ├── Repositories/   # CardRepositoryInterface + CardRepository
-│   │   └── Services/       # CardService (game logic)
+│   │   │   ├── Card/               # CardController  — GET /api/cards/{suit}
+│   │   │   ├── Score/              # ScoreController — POST /api/scores, GET /api/scores/top10
+│   │   │   └── GameController.php  # POST /api/game/play
+│   │   ├── Models/                 # User (framework model)
+│   │   ├── Providers/              # AppServiceProvider (DI bindings)
+│   │   └── Service/                # GameService (orchestrates card + score domains)
 │   ├── database/
-│   │   ├── migrations/     # cards, scores tables
-│   │   └── seeders/        # CardSeeder (52 cards)
+│   │   ├── factories/              # ScoreFactory
+│   │   ├── migrations/             # cards, scores tables
+│   │   └── seeders/                # CardSeeder (52 cards)
 │   ├── resources/js/
-│   │   ├── pages/          # CardGamePage, HomePage, LeaderboardPage
-│   │   ├── components/     # CardItem, PlayerNameModal
-│   │   ├── lib/            # api.ts (fetchCards, playGame)
-│   │   └── constants/      # cards.ts (SUIT_SYMBOL_MAP)
+│   │   ├── pages/                  # CardGamePage, HomePage, LeaderboardPage
+│   │   ├── components/             # CardItem, PlayerNameModal
+│   │   ├── lib/                    # api.ts (fetchCards, playGame)
+│   │   └── constants/              # cards.ts (SUIT_SYMBOL_MAP)
 │   └── routes/api.php
-├── docker/                 # Nginx, PHP, MySQL Docker configs
+├── docker/                         # Nginx, PHP, MySQL Docker configs
 ├── docker-compose.yml
-├── Makefile                # Developer shortcuts
-└── scripts/install.sh      # Full bootstrap script
+├── Makefile                        # Developer shortcuts
+└── scripts/install.sh              # Full bootstrap script
 ```
 
 ## API Endpoints

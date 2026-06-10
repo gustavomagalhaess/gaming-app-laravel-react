@@ -31,6 +31,11 @@ RUN docker-php-ext-install -j$(nproc) \
         zip \
         pcntl
 
+ # Xdebug (dev only). Enable at runtime by setting XDEBUG_MODE=debug,develop
+ # in docker-compose; defaults to "off" so production-style runs aren't slowed.
+ RUN pecl install xdebug \
+     && docker-php-ext-enable xdebug
+
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -42,6 +47,7 @@ RUN addgroup -g ${APP_GID} -S app \
 
 # PHP config
 COPY php.ini /usr/local/etc/php/conf.d/zz-app.ini
+COPY xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug.ini
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh \

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Domains\Card\Repositories;
 
 use Illuminate\Support\Collection;
 

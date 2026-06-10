@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Domains\Card\Repositories;
 
-use App\Models\Card;
+use App\Domains\Card\Models\Card;
 use Illuminate\Support\Collection;
 
 class CardRepository implements CardRepositoryInterface

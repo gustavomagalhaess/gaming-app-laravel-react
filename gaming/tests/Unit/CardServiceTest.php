@@ -2,9 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Card;
-use App\Services\CardService;
-use Illuminate\Support\Collection;
+use App\Domains\Card\Models\Card;
+use App\Domains\Card\Services\CardService;
 use Tests\TestCase;
 
 class CardServiceTest extends TestCase
@@ -14,12 +13,12 @@ class CardServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new CardService();
+        $this->service = app(CardService::class);
     }
 
     private function makeCard(string $face, int $value, string $suit = 'Hearts'): Card
     {
-        $card = new Card();
+        $card = app(Card::class);
         $card->face  = $face;
         $card->value = $value;
         $card->suit  = $suit;

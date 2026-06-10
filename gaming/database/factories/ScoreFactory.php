@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Domains\Score\Models\Score;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ScoreFactory extends Factory
 {
+    protected $model = Score::class;
+
     public function definition(): array
     {
         $playerScore   = $this->faker->numberBetween(0, 13);

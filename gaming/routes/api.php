@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\CardController;
+use App\Http\Controllers\Card\CardController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\Score\ScoreController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', fn () => response()->json(['status' => 'ok']));

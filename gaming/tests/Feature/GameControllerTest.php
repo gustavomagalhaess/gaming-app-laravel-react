@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Card;
-use App\Models\Score;
+use App\Domains\Card\Models\Card;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
