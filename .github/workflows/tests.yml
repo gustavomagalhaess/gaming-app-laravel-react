@@ -1,4 +1,4 @@
-name: Code Style
+name: Tests
 
 on:
   pull_request:
@@ -8,8 +8,8 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  pint:
-    name: Laravel Pint
+  phpunit:
+    name: PHPUnit
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ steps.php-version.outputs.version }}
+          extensions: pdo_sqlite, sqlite3
           tools: composer:v2
           coverage: none
 
@@ -39,6 +40,12 @@ jobs:
         working-directory: ./gaming
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
-      - name: Run Pint
+      - name: Prepare environment
         working-directory: ./gaming
-        run: ./vendor/bin/pint --test
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run tests
+        working-directory: ./gaming
+        run: php artisan test
