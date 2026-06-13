@@ -151,6 +151,19 @@ Open [http://localhost:8081](http://localhost:8081) — frontend changes hot-rel
 | `make logs` | Tail logs from all containers |
 | `make artisan c="<cmd>"` | Run an Artisan command, e.g. `make artisan c="migrate"` |
 
+## CI
+
+| Workflow | Trigger | What it does |
+|---|---|---|
+| **Code Style** (`.github/workflows/code-style.yml`) | Every Pull Request | Runs `./vendor/bin/pint --test` — fails if any file needs reformatting |
+| **Tests** (`.github/workflows/tests.yml`) | Every Pull Request | Runs the full PHPUnit suite (Unit + Feature) against SQLite in-memory |
+
+To fix code style failures locally before pushing:
+
+```bash
+make pint
+```
+
 ## Running Tests
 
 ```bash
