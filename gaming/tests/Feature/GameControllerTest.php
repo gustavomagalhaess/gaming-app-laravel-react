@@ -23,15 +23,15 @@ class GameControllerTest extends TestCase
         $this->seedSuit('Hearts');
 
         $response = $this->postJson('/api/game/play', [
-            'player_name'     => 'Alice',
-            'suit'            => 'Hearts',
+            'player_name' => 'Alice',
+            'suit' => 'Hearts',
             'selected_values' => [1, 5, 13],
         ]);
 
         $response->assertOk()
             ->assertJsonStructure([
                 'computer_cards' => [['face', 'value']],
-                'comparisons'    => [['player_face', 'player_value', 'computer_face', 'computer_value', 'winner']],
+                'comparisons' => [['player_face', 'player_value', 'computer_face', 'computer_value', 'winner']],
                 'player_score',
                 'computer_score',
                 'winner',
@@ -43,8 +43,8 @@ class GameControllerTest extends TestCase
         $this->seedSuit('Spades');
 
         $response = $this->postJson('/api/game/play', [
-            'player_name'     => 'Bob',
-            'suit'            => 'Spades',
+            'player_name' => 'Bob',
+            'suit' => 'Spades',
             'selected_values' => [1, 2, 3, 4],
         ]);
 
@@ -58,8 +58,8 @@ class GameControllerTest extends TestCase
         $this->seedSuit('Diamonds');
 
         $response = $this->postJson('/api/game/play', [
-            'player_name'     => 'Carol',
-            'suit'            => 'Diamonds',
+            'player_name' => 'Carol',
+            'suit' => 'Diamonds',
             'selected_values' => [7, 8],
         ]);
 
@@ -72,8 +72,8 @@ class GameControllerTest extends TestCase
         $this->seedSuit('Clubs');
 
         $this->postJson('/api/game/play', [
-            'player_name'     => 'Dan',
-            'suit'            => 'Clubs',
+            'player_name' => 'Dan',
+            'suit' => 'Clubs',
             'selected_values' => [13],
         ])->assertOk();
 
@@ -86,8 +86,8 @@ class GameControllerTest extends TestCase
         $this->seedSuit('Hearts');
 
         $response = $this->postJson('/api/game/play', [
-            'player_name'     => 'Eve',
-            'suit'            => 'Hearts',
+            'player_name' => 'Eve',
+            'suit' => 'Hearts',
             'selected_values' => [1],
         ])->assertOk();
 
@@ -97,7 +97,7 @@ class GameControllerTest extends TestCase
     public function test_play_requires_player_name(): void
     {
         $this->postJson('/api/game/play', [
-            'suit'            => 'Hearts',
+            'suit' => 'Hearts',
             'selected_values' => [1],
         ])->assertStatus(422)->assertJsonValidationErrors(['player_name']);
     }
@@ -105,8 +105,8 @@ class GameControllerTest extends TestCase
     public function test_play_requires_valid_suit(): void
     {
         $this->postJson('/api/game/play', [
-            'player_name'     => 'Alice',
-            'suit'            => 'Jokers',
+            'player_name' => 'Alice',
+            'suit' => 'Jokers',
             'selected_values' => [1],
         ])->assertStatus(422)->assertJsonValidationErrors(['suit']);
     }
@@ -114,8 +114,8 @@ class GameControllerTest extends TestCase
     public function test_play_requires_at_least_one_selected_value(): void
     {
         $this->postJson('/api/game/play', [
-            'player_name'     => 'Alice',
-            'suit'            => 'Hearts',
+            'player_name' => 'Alice',
+            'suit' => 'Hearts',
             'selected_values' => [],
         ])->assertStatus(422)->assertJsonValidationErrors(['selected_values']);
     }
@@ -123,8 +123,8 @@ class GameControllerTest extends TestCase
     public function test_play_rejects_values_out_of_range(): void
     {
         $this->postJson('/api/game/play', [
-            'player_name'     => 'Alice',
-            'suit'            => 'Hearts',
+            'player_name' => 'Alice',
+            'suit' => 'Hearts',
             'selected_values' => [0, 14],
         ])->assertStatus(422);
     }
@@ -139,8 +139,8 @@ class GameControllerTest extends TestCase
         // We can't guarantee a tie via the API, but we can verify the resolveGame logic via unit test.
         // Here we verify the endpoint runs without error and returns a valid winner.
         $response = $this->postJson('/api/game/play', [
-            'player_name'     => 'Tied',
-            'suit'            => 'Hearts',
+            'player_name' => 'Tied',
+            'suit' => 'Hearts',
             'selected_values' => [1],
         ])->assertOk();
 

@@ -12,9 +12,7 @@ class ScoreController extends Controller
 {
     public function __construct(
         private readonly ScoreRepositoryInterface $scoreRepository
-    )
-    {
-    }
+    ) {}
 
     public function store(ScoreRequest $request): JsonResponse
     {

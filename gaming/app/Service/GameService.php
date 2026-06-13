@@ -8,11 +8,9 @@ use App\Domains\Score\Services\ScoreService;
 class GameService
 {
     public function __construct(
-        private readonly CardService  $cardService,
+        private readonly CardService $cardService,
         private readonly ScoreService $scoreService,
-    )
-    {
-    }
+    ) {}
 
     public function play(array $validated): array
     {
@@ -28,6 +26,6 @@ class GameService
             $result['computer_score'],
         );
 
-        return [$computerHand->map(fn($c) => ['face' => $c->face, 'value' => $c->value])->values(), $result];
+        return [$computerHand->map(fn ($c) => ['face' => $c->face, 'value' => $c->value])->values(), $result];
     }
 }

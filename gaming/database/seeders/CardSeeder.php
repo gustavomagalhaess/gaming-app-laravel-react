@@ -15,8 +15,8 @@ class CardSeeder extends Seeder
         foreach ($suits as $suit) {
             foreach ($faces as $index => $face) {
                 Card::create([
-                    'suit'  => $suit,
-                    'face'  => $face,
+                    'suit' => $suit,
+                    'face' => $face,
                     'value' => $index + 1,
                 ]);
             }
