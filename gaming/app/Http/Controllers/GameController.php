@@ -10,9 +10,7 @@ class GameController extends Controller
 {
     public function __construct(
         private readonly GameService $gameService,
-    )
-    {
-    }
+    ) {}
 
     public function play(Request $request): JsonResponse
     {

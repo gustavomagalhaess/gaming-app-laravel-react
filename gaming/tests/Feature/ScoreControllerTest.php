@@ -15,14 +15,14 @@ class ScoreControllerTest extends TestCase
     public function test_store_creates_score_and_returns_201(): void
     {
         $response = $this->postJson('/api/scores', [
-            'winner'         => 'Alice',
-            'player_name'    => 'Alice',
-            'player_score'   => 7,
+            'winner' => 'Alice',
+            'player_name' => 'Alice',
+            'player_score' => 7,
             'computer_score' => 3,
         ]);
 
         $response->assertStatus(201)
-                 ->assertJsonFragment(['winner' => 'Alice', 'player_score' => 7]);
+            ->assertJsonFragment(['winner' => 'Alice', 'player_score' => 7]);
 
         $this->assertDatabaseHas('scores', ['winner' => 'Alice', 'player_score' => 7]);
     }
@@ -30,9 +30,9 @@ class ScoreControllerTest extends TestCase
     public function test_store_with_computer_winner(): void
     {
         $response = $this->postJson('/api/scores', [
-            'winner'         => 'Computer',
-            'player_name'    => 'Bob',
-            'player_score'   => 2,
+            'winner' => 'Computer',
+            'player_name' => 'Bob',
+            'player_score' => 2,
             'computer_score' => 5,
         ]);
 
@@ -43,8 +43,8 @@ class ScoreControllerTest extends TestCase
     public function test_store_requires_winner(): void
     {
         $this->postJson('/api/scores', [
-            'player_name'    => 'Alice',
-            'player_score'   => 5,
+            'player_name' => 'Alice',
+            'player_score' => 5,
             'computer_score' => 3,
         ])->assertStatus(422)->assertJsonValidationErrors('winner');
     }
@@ -52,8 +52,8 @@ class ScoreControllerTest extends TestCase
     public function test_store_requires_player_name(): void
     {
         $this->postJson('/api/scores', [
-            'winner'         => 'Alice',
-            'player_score'   => 5,
+            'winner' => 'Alice',
+            'player_score' => 5,
             'computer_score' => 3,
         ])->assertStatus(422)->assertJsonValidationErrors('player_name');
     }
@@ -61,8 +61,8 @@ class ScoreControllerTest extends TestCase
     public function test_store_requires_player_score(): void
     {
         $this->postJson('/api/scores', [
-            'winner'         => 'Alice',
-            'player_name'    => 'Alice',
+            'winner' => 'Alice',
+            'player_name' => 'Alice',
             'computer_score' => 3,
         ])->assertStatus(422)->assertJsonValidationErrors('player_score');
     }
@@ -70,8 +70,8 @@ class ScoreControllerTest extends TestCase
     public function test_store_requires_computer_score(): void
     {
         $this->postJson('/api/scores', [
-            'winner'       => 'Alice',
-            'player_name'  => 'Alice',
+            'winner' => 'Alice',
+            'player_name' => 'Alice',
             'player_score' => 5,
         ])->assertStatus(422)->assertJsonValidationErrors('computer_score');
     }
@@ -79,9 +79,9 @@ class ScoreControllerTest extends TestCase
     public function test_store_rejects_winner_exceeding_100_chars(): void
     {
         $this->postJson('/api/scores', [
-            'winner'         => str_repeat('a', 101),
-            'player_name'    => 'Alice',
-            'player_score'   => 5,
+            'winner' => str_repeat('a', 101),
+            'player_name' => 'Alice',
+            'player_score' => 5,
             'computer_score' => 3,
         ])->assertStatus(422)->assertJsonValidationErrors('winner');
     }
@@ -89,9 +89,9 @@ class ScoreControllerTest extends TestCase
     public function test_store_rejects_negative_score(): void
     {
         $this->postJson('/api/scores', [
-            'winner'         => 'Alice',
-            'player_name'    => 'Alice',
-            'player_score'   => -1,
+            'winner' => 'Alice',
+            'player_name' => 'Alice',
+            'player_score' => -1,
             'computer_score' => 3,
         ])->assertStatus(422)->assertJsonValidationErrors('player_score');
     }
@@ -103,7 +103,7 @@ class ScoreControllerTest extends TestCase
         $response = $this->getJson('/api/scores/top10');
 
         $response->assertStatus(200)
-                 ->assertJson(['data' => []]);
+            ->assertJson(['data' => []]);
     }
 
     public function test_top10_returns_up_to_10_records(): void
@@ -125,15 +125,15 @@ class ScoreControllerTest extends TestCase
         $data = $this->getJson('/api/scores/top10')->json('data');
 
         $this->assertSame('High', $data[0]['winner']);
-        $this->assertSame('Mid',  $data[1]['winner']);
-        $this->assertSame('Low',  $data[2]['winner']);
+        $this->assertSame('Mid', $data[1]['winner']);
+        $this->assertSame('Low', $data[2]['winner']);
     }
 
     public function test_top10_response_has_correct_shape(): void
     {
         Score::factory()->create([
-            'winner'         => 'Alice',
-            'player_score'   => 8,
+            'winner' => 'Alice',
+            'player_score' => 8,
             'computer_score' => 2,
         ]);
 

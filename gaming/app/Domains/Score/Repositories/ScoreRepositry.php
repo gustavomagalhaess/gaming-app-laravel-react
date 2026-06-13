@@ -25,7 +25,7 @@ class ScoreRepositry implements ScoreRepositoryInterface
             ->limit(10)
             ->get(['id', 'winner', 'player_name', 'player_score', 'computer_score', 'created_at'])
             ->values()
-            ->map(fn($score, $index) => [
+            ->map(fn ($score, $index) => [
                 'rank' => $index + 1,
                 'winner' => $score->winner,
                 'player_score' => $score->player_score,

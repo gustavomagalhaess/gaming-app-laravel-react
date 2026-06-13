@@ -65,3 +65,7 @@ fresh: ## Drop all tables, re-migrate, and re-seed.
 .PHONY: logs
 logs: ## Tail logs from all containers.
 	$(DC) logs -f
+
+.PHONY: pint
+pint: ## Run Laravel Pint code style fixer. `make pint c="--repair"` to auto-fix issues.
+	$(DC) exec app ./vendor/bin/pint $(c)

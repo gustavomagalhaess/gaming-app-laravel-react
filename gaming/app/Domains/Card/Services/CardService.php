@@ -11,13 +11,11 @@ class CardService
 {
     public function __construct(
         private CardRepositoryInterface $cardRepository,
-    )
-    {
-    }
+    ) {}
 
     public function validateSuit(string $suit): bool
     {
-        return !in_array($suit, CardEnum::values(), true);
+        return ! in_array($suit, CardEnum::values(), true);
     }
 
     public function getBySuit(string $suit): Collection
@@ -27,7 +25,7 @@ class CardService
 
     public function getBySuitMapped(string $suit): Collection
     {
-        return $this->getBySuit($suit)->map(fn($card) => [
+        return $this->getBySuit($suit)->map(fn ($card) => [
             'id' => $card->id,
             'suit' => $card->suit,
             'face' => $card->face,
@@ -83,8 +81,8 @@ class CardService
             ];
         }
 
-        $playerScore = count(array_filter($comparisons, fn($c) => $c['winner'] === 'player'));
-        $computerScore = count(array_filter($comparisons, fn($c) => $c['winner'] === 'computer'));
+        $playerScore = count(array_filter($comparisons, fn ($c) => $c['winner'] === 'player'));
+        $computerScore = count(array_filter($comparisons, fn ($c) => $c['winner'] === 'computer'));
 
         return [
             'comparisons' => $comparisons,

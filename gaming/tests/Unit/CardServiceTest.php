@@ -19,15 +19,16 @@ class CardServiceTest extends TestCase
     private function makeCard(string $face, int $value, string $suit = 'Hearts'): Card
     {
         $card = app(Card::class);
-        $card->face  = $face;
+        $card->face = $face;
         $card->value = $value;
-        $card->suit  = $suit;
+        $card->suit = $suit;
+
         return $card;
     }
 
     public function test_resolve_game_player_wins_higher_value(): void
     {
-        $playerCards   = collect([$this->makeCard('K', 13)]);
+        $playerCards = collect([$this->makeCard('K', 13)]);
         $computerCards = collect([$this->makeCard('2', 2)]);
 
         $result = $this->service->resolveGame($playerCards, $computerCards);
@@ -39,7 +40,7 @@ class CardServiceTest extends TestCase
 
     public function test_resolve_game_tie_goes_to_computer(): void
     {
-        $playerCards   = collect([$this->makeCard('5', 5)]);
+        $playerCards = collect([$this->makeCard('5', 5)]);
         $computerCards = collect([$this->makeCard('5', 5)]);
 
         $result = $this->service->resolveGame($playerCards, $computerCards);
@@ -51,7 +52,7 @@ class CardServiceTest extends TestCase
 
     public function test_resolve_game_computer_wins_higher_value(): void
     {
-        $playerCards   = collect([$this->makeCard('A', 1)]);
+        $playerCards = collect([$this->makeCard('A', 1)]);
         $computerCards = collect([$this->makeCard('K', 13)]);
 
         $result = $this->service->resolveGame($playerCards, $computerCards);
@@ -82,7 +83,7 @@ class CardServiceTest extends TestCase
 
     public function test_resolve_game_comparisons_contain_correct_faces(): void
     {
-        $playerCards   = collect([$this->makeCard('K', 13)]);
+        $playerCards = collect([$this->makeCard('K', 13)]);
         $computerCards = collect([$this->makeCard('A', 1)]);
 
         $result = $this->service->resolveGame($playerCards, $computerCards);
@@ -110,7 +111,7 @@ class CardServiceTest extends TestCase
 
     public function test_generate_computer_hand_count_matches_requested(): void
     {
-        $faces     = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+        $faces = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
         $suitCards = collect(array_map(fn ($i) => $this->makeCard($faces[$i], $i + 1), range(0, 12)));
 
         $hand = $this->service->generateComputerHand($suitCards, [1], 5);

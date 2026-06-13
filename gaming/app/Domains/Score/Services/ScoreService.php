@@ -7,20 +7,16 @@ use App\Domains\Score\Repositories\ScoreRepositoryInterface;
 
 class ScoreService
 {
-
     public function __construct(
         private ScoreRepositoryInterface $scoreRepository
-    )
-    {
-    }
+    ) {}
 
     public function create(
         string $winner,
         string $playerName,
         string $playerScore,
         string $computerScore,
-    ): Score
-    {
+    ): Score {
 
         $winnerName = $winner === 'player' ? $playerName : 'Computer';
 
