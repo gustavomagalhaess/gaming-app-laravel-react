@@ -16,10 +16,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Read PHP version
+        id: php-version
+        run: echo "version=$(grep '^PHP_VERSION=' .env.example | cut -d= -f2)" >> $GITHUB_OUTPUT
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: ${{ steps.php-version.outputs.version }}
           tools: composer:v2
           coverage: none
 
