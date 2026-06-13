@@ -1,0 +1,37 @@
+name: Code Style
+
+on:
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  pint:
+    name: Laravel Pint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: gaming/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('gaming/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        working-directory: ./gaming
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
+
+      - name: Run Pint
+        working-directory: ./gaming
+        run: ./vendor/bin/pint --test
