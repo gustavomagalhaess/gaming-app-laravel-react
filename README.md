@@ -139,16 +139,17 @@ Open [http://localhost:8081](http://localhost:8081) — frontend changes hot-rel
 
 ## Common Commands
 
-| Command | Description |
-|---|---|
-| `make up` | Start the app stack (background) |
-| `make dev` | Start with Vite dev server (hot reload) |
-| `make down` | Stop containers (preserves database) |
-| `make nuke` | Stop containers and wipe the database volume |
-| `make test` | Run the PHPUnit test suite |
-| `make fresh` | Drop all tables, re-migrate, and re-seed |
-| `make shell` | Open a shell inside the PHP container |
-| `make logs` | Tail logs from all containers |
+| Command                  | Description |
+|--------------------------|---|
+| `make up`                | Start the app stack (background) |
+| `make dev`               | Start with Vite dev server (hot reload) |
+| `make down`              | Stop containers (preserves database) |
+| `make nuke`              | Stop containers and wipe the database volume |
+| `make test`              | Run the PHPUnit test suite |
+| `make fresh`             | Drop all tables, re-migrate, and re-seed |
+| `make shell`             | Open a shell inside the PHP container |
+| `make logs`              | Tail logs from all containers |
+| `make pint c="<cmd>"`    | Run Laravel Pint code style fixer. `make pint c="--repair"` to auto-fix issues |
 | `make artisan c="<cmd>"` | Run an Artisan command, e.g. `make artisan c="migrate"` |
 
 ## CI
